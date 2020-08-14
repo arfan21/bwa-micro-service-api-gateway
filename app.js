@@ -11,12 +11,18 @@ const coursesRouter = require("./routes/courses");
 const mediaRouter = require("./routes/media");
 const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
+const refreshTokenRouter = require("./routes/refreshToken");
 
 const app = express();
 
 app.use(logger("dev"));
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: false, limit: "50mb" }));
+app.use(express.json({
+    limit: "50mb"
+}));
+app.use(express.urlencoded({
+    extended: false,
+    limit: "50mb"
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -26,5 +32,6 @@ app.use("/courses", coursesRouter);
 app.use("/media", mediaRouter);
 app.use("/orders", ordersRouter);
 app.use("/payments", paymentsRouter);
+app.use("/refresh-tokens", refreshTokenRouter);
 
 module.exports = app;
