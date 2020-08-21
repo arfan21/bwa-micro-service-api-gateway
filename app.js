@@ -12,17 +12,30 @@ const mediaRouter = require("./routes/media");
 const ordersRouter = require("./routes/orders");
 const paymentsRouter = require("./routes/payments");
 const refreshTokenRouter = require("./routes/refreshToken");
+const mentorsRouter = require("./routes/mentors");
+const chaptersRouter = require("./routes/chapters");
+const lessonsRouter = require("./routes/lessons");
+const imageCoursesRouter = require("./routes/imageCourses");
+const myCoursesRouter = require("./routes/myCourses");
+const reviewsRouter = require("./routes/reviews");
+
+//middleware
+const verifyToken = require("./middleware/verifyToken");
 
 const app = express();
 
 app.use(logger("dev"));
-app.use(express.json({
-    limit: "50mb"
-}));
-app.use(express.urlencoded({
-    extended: false,
-    limit: "50mb"
-}));
+app.use(
+    express.json({
+        limit: "50mb",
+    })
+);
+app.use(
+    express.urlencoded({
+        extended: false,
+        limit: "50mb",
+    })
+);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -33,5 +46,10 @@ app.use("/media", mediaRouter);
 app.use("/orders", ordersRouter);
 app.use("/payments", paymentsRouter);
 app.use("/refresh-tokens", refreshTokenRouter);
-
+app.use("/mentors", verifyToken, mentorsRouter);
+app.use("/chapters", verifyToken, chaptersRouter);
+app.use("/lessons", verifyToken, lessonsRouter);
+app.use("/image-courses", verifyToken, imageCoursesRouter);
+app.use("/my-courses", verifyToken, myCoursesRouter);
+app.use("/reviews", verifyToken, reviewsRouter);
 module.exports = app;
