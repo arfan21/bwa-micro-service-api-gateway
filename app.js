@@ -3,6 +3,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cors = require("cors");
 
 //routes
 const indexRouter = require("./routes/index");
@@ -24,6 +25,7 @@ const verifyToken = require("./middleware/verifyToken");
 
 const app = express();
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(
     express.json({
