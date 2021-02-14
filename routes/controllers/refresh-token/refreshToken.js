@@ -67,6 +67,12 @@ module.exports = async (req, res) => {
                     message: "service unavailable"
                 });
         }
+        if(error.code == 'ECONNABORTED'){
+            return res.status(408).json({
+                status: "error",
+                message: "request time out",
+            });
+        }
 
         const {
             status,

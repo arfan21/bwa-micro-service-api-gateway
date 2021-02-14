@@ -2,16 +2,19 @@ const express = require("express");
 const router = express.Router();
 const coursesController = require("./controllers/courses");
 const verifyToken = require("../middleware/verifyToken");
-const verifyAdmin = require("../middleware/verifyAdmin");
+const permission = require("../middleware/permission");
 
-router.post("/", verifyToken, verifyAdmin, coursesController.create);
+//public routes
 router.get("/", coursesController.getAll);
 router.get("/:id", coursesController.get);
-router.put("/:id", verifyToken, verifyAdmin, coursesController.update);
+
+//private routes
+router.post("/", verifyToken, permission("admin"), coursesController.create);
+router.put("/:id", verifyToken, permission("admin"), coursesController.update);
 router.delete(
     "/:id",
     verifyToken,
-    verifyAdmin,
+    permission("admin"),
     coursesController.deleteCourses
 );
 
